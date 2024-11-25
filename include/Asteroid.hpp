@@ -16,12 +16,13 @@ public:
 
 	float speed;
 	float rotspeed;
+	static Texture2D AsteroidImage;
 
-	void Update();
+	void Update(); 
 	void Draw();
 	void getCircle();
 
-}
+};
 
 
 #endif
