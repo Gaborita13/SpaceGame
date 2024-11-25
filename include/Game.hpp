@@ -6,6 +6,7 @@
 #include "PlayerShip.hpp"
 #include "Planet.hpp"
 #include "Projectile.hpp"
+#include "Asteroid.hpp"
 #include <vector>
 
 class Game{
@@ -16,8 +17,11 @@ class Game{
 	void Update();
 	void HandleInput();
 	void DeleteInactiveProjectiles();
+	
+
 	int counter;
 	PlayerShip player;
+	Asteroid asteroid1;
 	Projectile bullet;
 	std::vector<Planet> planets;
 

@@ -8,12 +8,14 @@ Game::Game(){
 	}
 	counter = 0;
 	// bullet = Projectile({100, 100}, 2);
+	asteroid1 = Asteroid({1, 1}, 1, 1, 1, 1, 1);
 }
 
 Game::~Game(){
 	for(Planet planet : planets){
 		planet.unloadimage();
 	}
+	Asteroid::UnloadImages();
 }
 
 void Game::Draw(){
