@@ -17,6 +17,8 @@ class Game{
 	void Update();
 	void HandleInput();
 	void DeleteInactiveProjectiles();
+	void SpawnAsteroid();
+	void HandleCollisions();
 	
 
 	int counter;
@@ -24,6 +26,7 @@ class Game{
 	Asteroid asteroid1;
 	Projectile bullet;
 	std::vector<Planet> planets;
+	Asteroid asteroid; 
 
 
 };

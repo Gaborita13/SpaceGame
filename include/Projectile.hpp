@@ -12,6 +12,7 @@ public:
 	Projectile();
 	~Projectile();
 	Vector2 position;
+	Rectangle HitBox;
 	int speed;
 	bool active;
 

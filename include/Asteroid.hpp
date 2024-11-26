@@ -9,12 +9,17 @@ class Asteroid{
 public:
 	Asteroid();
 	Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, int ratio, std::vector<Texture2D> ExplosionAnim);
-	Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, int ratio);
+	Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, float ratio);
 	int hp;
-	int ratio;
+	float ratio;
 	bool Alive;
+	bool touched;
 	Vector2 Position;
+	Vector2 NextPosition;
 	float orientation;
+	float AsteroidRadius;
+	float HitBoxRadius;
+	Vector2 HitBoxCenter;
 
 	int AsteroidFrameCounter;
 	int AsteroidFrameNumber;

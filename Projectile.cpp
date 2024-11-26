@@ -10,6 +10,8 @@ Projectile::Projectile(Vector2 position, int speed, std::vector<Texture2D> Proje
 	this->speed = speed;
 	this -> ProjectileAnim = ProjectileAnim;
 	active = true;
+	// HitBox = {}
+	HitBox = {position.x - 20, position.y + 11, 12, 10};
 
 	BulletFrameCounter = 0;
 	BulletFrameNumber = 4;
@@ -31,16 +33,18 @@ Projectile::~Projectile(){
 
 void Projectile::Draw(){
 	if(active){
+		// DrawRectangleLines(position.x - 20, position.y + 11, 12, 10, RED);
 		ProjectileAnimation.DrawAnim(1, 90, position);
 	}
+
 }
 
 void Projectile::Update(){
 	position.x += speed;
+	HitBox = {position.x - 20, position.y + 11, 12, 10};
 	if(position.x - ProjectileAnim[0].width > GetScreenWidth() && active){
 		active = false;
-		UnloadAnim();
-		// UnloadProjectileImage();
+		UnloadAnim();		// UnloadProjectileImage();
 	} 
 }
 

@@ -7,8 +7,9 @@ Game::Game(){
 		planets.push_back(Planet(i));
 	}
 	counter = 0;
+	asteroid = Asteroid();
 	// bullet = Projectile({100, 100}, 2);
-	asteroid1 = Asteroid({1, 1}, 1, 1, 1, 1, 1);
+	
 }
 
 Game::~Game(){
@@ -26,6 +27,9 @@ void Game::Draw(){
 	for(Projectile& bullet : player.projectiles){
 		bullet.Draw();
 	}
+	
+	asteroid.Draw();
+
 
 }
 
@@ -39,8 +43,11 @@ void Game::Update(){
 	for(Projectile& bullet : player.projectiles){
 		bullet.Update();
 	}
+	HandleCollisions();
 	DeleteInactiveProjectiles();
-
+	SpawnAsteroid();
+	asteroid.Update();
+	HandleCollisions();
 }
 
 void Game::HandleInput(){
@@ -85,4 +92,30 @@ void Game::DeleteInactiveProjectiles(){
 			++it;
 		}
 	}
+}
+
+void Game::SpawnAsteroid(){
+
+
+	if(!asteroid.Alive){
+		float randratio = (float) GetRandomValue(10, 50) / 10;
+		float randorientation = (float) GetRandomValue(0, 1800) / 10;
+		float randspeed = (float) GetRandomValue(10, 50) / 10;
+		float randrotspeed = (float) GetRandomValue(10, 50) / 10;
+		float randypos = (float) GetRandomValue(0, 5000) / 10;
+		int randhp = GetRandomValue(5, 20);
+		float xpos = 900;
+		asteroid = Asteroid({xpos, randypos}, randorientation, randhp, -randspeed, -randrotspeed, randratio);
+	}
+}
+
+void Game::HandleCollisions(){
+
+	for(Projectile& projectile : player.projectiles){
+		if(CheckCollisionCircleRec({asteroid.Position.x, asteroid.Position.y}, asteroid.HitBoxRadius, projectile.HitBox)){
+			projectile.active = false;
+			asteroid.hp--;
+			asteroid.touched = true;
+		}
+	} 
 }
