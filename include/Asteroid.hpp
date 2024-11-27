@@ -13,6 +13,7 @@ public:
 	int hp;
 	float ratio;
 	bool Alive;
+	bool Exploded;
 	bool touched;
 	Vector2 Position;
 	Vector2 NextPosition;

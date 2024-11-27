@@ -7,7 +7,7 @@ std::vector<Texture2D> Asteroid::ExplosionTextures;
 
 Asteroid::Asteroid(){
 	Alive = false;
-	hp = -10;
+	hp = -20;
 }
 
 Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, int ratio, std::vector<Texture2D> ExplosionAnim){
@@ -24,13 +24,14 @@ Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, flo
 	this -> ratio = ratio;
 	touched = false;
 	NextPosition = Position; 
-	AsteroidRadius = 14;
+	AsteroidRadius = 16;
 	HitBoxRadius = AsteroidRadius * ratio;
 
 	AsteroidFrameCounter = 0;
 	AsteroidFrameNumber = 8;
 	AsteroidFrameDelay = 4;
 	AsteroidFrame = 0;
+	Exploded = false;
 
 	Alive = true;
 
@@ -55,6 +56,7 @@ void Asteroid::UnloadImages(){
 void Asteroid::Draw(){
 
 	if(Alive){
+
 		if(!touched){
 			DrawTexturePro(AsteroidImage, (Rectangle){0, 0, (float)AsteroidImage.width, (float)AsteroidImage.height },
 	 		(Rectangle){Position.x, Position.y, ratio * (float)AsteroidImage.width, ratio *  (float)AsteroidImage.height},
@@ -66,9 +68,10 @@ void Asteroid::Draw(){
 	  		{ratio * AsteroidImage.width / 2, ratio * AsteroidImage.height / 2}, orientation, RED);
 	  		touched = false;			
 		}
+		// DrawCircleLinesV(Position, HitBoxRadius, RED);
 
 	}
-	if(!Alive && hp > -10)
+	if(!Alive && hp > -20)
 	{
 		ExplosionAnim.DrawAnimProOnce(ratio, orientation, Position);
 	}
@@ -77,7 +80,7 @@ void Asteroid::Draw(){
 
 void Asteroid::Update(){
 	if(Alive){
-		if(Position.x + ratio * AsteroidImage.width / 2 > 0){
+		if(Position.x + ratio * AsteroidImage.width > 0){
 			Position.x += speed;
 			orientation += rotspeed;
 		}
@@ -91,6 +94,11 @@ void Asteroid::Update(){
 			HitBoxRadius = 0;
 		}
 
+
+	}
+	if(!Alive && ExplosionAnim.FrameCounter > 6){
+		std::cout << Exploded << "\n";
+		Exploded = true;
 	}
 
 

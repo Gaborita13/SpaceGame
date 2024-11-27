@@ -32,7 +32,9 @@ void Game::Draw(){
 		bullet.Draw();
 	}
 
-	asteroid.Draw();
+	for(Asteroid& asteroid : asteroids){
+		asteroid.Draw();
+	}
 	// asteroid1.Draw();
 
 
@@ -51,14 +53,18 @@ void Game::Update(){
 	HandleCollisions();
 	DeleteInactiveProjectiles();
 	SpawnAsteroid();
-	if(asteroid.Alive){
-		asteroid.Update();
-		std::cout << asteroid.hp << "\n";
+	// if(asteroid.Alive){
+	// 	asteroid.Update();
+	// 	std::cout << asteroid.hp << "\n";
 
+	// }
+	DeleteInactiveAsteroids();
+	for(Asteroid& asteroid : asteroids){
+		asteroid.Update();
 	}
-	// asteroid1.Update();
 	
-	HandleCollisions();
+	
+	// HandleCollisions();
 }
 
 void Game::HandleInput(){
@@ -93,10 +99,26 @@ void Game::HandleInput(){
 }
 
 void Game::DeleteInactiveProjectiles(){
+
 	for(auto it = player.projectiles.begin(); it != player.projectiles.end();){
 		if(!it -> active){
 			// std::cout << "Erased !\n";
 			it = player.projectiles.erase(it);
+		}
+		else{
+
+			++it;
+		}
+	}
+}
+
+void Game::DeleteInactiveAsteroids(){
+	std::cout << asteroids.size() << "\n";
+
+	for(auto it = asteroids.begin(); it != asteroids.end();){
+		if(it -> Exploded){
+			it = asteroids.erase(it);
+			std::cout << "Deleted\n";
 		}
 		else{
 
@@ -112,7 +134,7 @@ void Game::SpawnAsteroid(){
 		SpawnCounter++;
 		std::cout << SpawnCounter << "\n";
 		
-			if(SpawnCounter > 200){
+			if(SpawnCounter > 50){
 				float randratio = (float) GetRandomValue(10, 50) / 10;
 				float randorientation = (float) GetRandomValue(0, 1800) / 10;
 				float randspeed = (float) GetRandomValue(10, 50) / 10;
@@ -120,7 +142,7 @@ void Game::SpawnAsteroid(){
 				float randypos = (float) GetRandomValue(0, 5000) / 10;
 				int randhp = GetRandomValue(5, 20);
 				float xpos = 900;
-				asteroid = Asteroid({xpos, randypos}, randorientation, 1, -randspeed, -randrotspeed, randratio);
+				asteroids.push_back(Asteroid({xpos, randypos}, randorientation, 5, -randspeed, -randrotspeed, randratio));
 				SpawnCounter = 0;
 			}
 
@@ -131,15 +153,43 @@ void Game::SpawnAsteroid(){
 void Game::HandleCollisions(){
 
 	for(Projectile& projectile : player.projectiles){
-		if(CheckCollisionCircleRec({asteroid.Position.x, asteroid.Position.y}, asteroid.HitBoxRadius, projectile.HitBox)){
-			projectile.active = false;
-			asteroid.hp--;
-			asteroid.touched = true;
+
+		auto it = asteroids.begin();
+		while(it != asteroids.end()){
+			if(CheckCollisionCircleRec({it -> Position.x, it -> Position.y}, it -> HitBoxRadius, projectile.HitBox) && it -> Alive){
+				projectile.active = false;
+				it -> hp--;
+				it -> touched = true;
+				
+			}
+			it++;
+
 		}
-		// if(CheckCollisionCircleRec({asteroid1.Position.x, asteroid1.Position.y}, asteroid1.HitBoxRadius, projectile.HitBox)){
-		// 	projectile.active = false;
-		// 	asteroid1.hp--;
-		// 	asteroid1.touched = true;
-		// }
+
+	}
+	if(asteroids.size() > 1){
+		auto it1 = asteroids.begin();
+		while(it1 != asteroids.end()){
+			auto it2 = it1;
+			++it2;
+			while(it2 != asteroids.end()){
+				if(CheckCollisionCircles({it1 -> Position.x, it1 -> Position.y}, it1 -> HitBoxRadius,
+				 {it2 -> Position.x, it2 -> Position.y}, it2 -> HitBoxRadius)
+				  && it1 -> Alive && it2 -> Alive){
+					if(it1 -> HitBoxRadius > it2 -> HitBoxRadius){
+						it2 -> hp = 0;
+
+					}
+					else{
+						std::cout << "Here\n";
+						it1 -> hp = 0;
+					}
+				}
+				it2++;
+
+			}
+			it1++;
+		}
+
 	} 
 }
