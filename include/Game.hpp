@@ -22,6 +22,8 @@ class Game{
 	
 
 	int counter;
+	int SpawnCounter;
+	float LastAsteroidSpawn;
 	PlayerShip player;
 	Asteroid asteroid1;
 	Projectile bullet;

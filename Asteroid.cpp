@@ -2,11 +2,12 @@
 #include <cmath>
 
 Texture2D Asteroid::AsteroidImage;
-Anim Asteroid::ExplosionAnim;
+std::vector<Texture2D> Asteroid::ExplosionTextures;
 
 
 Asteroid::Asteroid(){
 	Alive = false;
+	hp = -10;
 }
 
 Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, int ratio, std::vector<Texture2D> ExplosionAnim){
@@ -28,7 +29,7 @@ Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, flo
 
 	AsteroidFrameCounter = 0;
 	AsteroidFrameNumber = 8;
-	AsteroidFrameDelay = 8;
+	AsteroidFrameDelay = 4;
 	AsteroidFrame = 0;
 
 	Alive = true;
@@ -37,34 +38,41 @@ Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, flo
 		AsteroidImage = LoadTexture("Assets/Foozle/Asteroids/PNGs/Asteroid.png");
 	}
 	
-	if(ExplosionAnim.animation.empty()){
-		std::cout << "anim loaded\n\n\n";
-		ExplosionAnim = Anim(AsteroidFrameDelay, AsteroidFrameCounter, AsteroidFrameNumber, AsteroidFrame, util::PNGtoAnim(LoadImage("Assets/Foozle/Asteroids/PNGs/asteroid_explosion.png"),8));
+if(ExplosionTextures.empty()){
+		ExplosionTextures = util::PNGtoAnim(LoadImage("Assets/Foozle/Asteroids/PNGs/asteroid_explosion.png"),8);
+		
 	}
+ExplosionAnim = Anim(AsteroidFrameDelay, AsteroidFrameCounter, AsteroidFrameNumber, AsteroidFrame, ExplosionTextures);
 }
 
 void Asteroid::UnloadImages(){
 	UnloadTexture(AsteroidImage);
-	ExplosionAnim.UnloadAnim();
+	ExplosionTextures.clear();
 	std::cout << "anim unloaded\n\n\n";
 }
 
 
 void Asteroid::Draw(){
+
 	if(Alive){
 		if(!touched){
 			DrawTexturePro(AsteroidImage, (Rectangle){0, 0, (float)AsteroidImage.width, (float)AsteroidImage.height },
-	 		(Rectangle){Position.x, Position.y, ratio * (float)AsteroidImage.width, ratio *  (float)AsteroidImage.height + speed },
+	 		(Rectangle){Position.x, Position.y, ratio * (float)AsteroidImage.width, ratio *  (float)AsteroidImage.height},
 	  		{ratio * AsteroidImage.width / 2, ratio * AsteroidImage.height / 2}, orientation, WHITE);
 		}
 		else{
 			DrawTexturePro(AsteroidImage, (Rectangle){0, 0, (float)AsteroidImage.width, (float)AsteroidImage.height },
-	 		(Rectangle){Position.x, Position.y, ratio * (float)AsteroidImage.width, ratio *  (float)AsteroidImage.height + speed },
+	 		(Rectangle){Position.x, Position.y, ratio * (float)AsteroidImage.width, ratio *  (float)AsteroidImage.height},
 	  		{ratio * AsteroidImage.width / 2, ratio * AsteroidImage.height / 2}, orientation, RED);
 	  		touched = false;			
 		}
 
 	}
+	if(!Alive && hp > -10)
+	{
+		ExplosionAnim.DrawAnimProOnce(ratio, orientation, Position);
+	}
+
 }
 
 void Asteroid::Update(){
@@ -76,9 +84,11 @@ void Asteroid::Update(){
 
 		else{
 			Alive = false;
+			HitBoxRadius = 0;
 		}
-		if(hp == 0){
+		if(hp <= 0){
 			Alive = false;
+			HitBoxRadius = 0;
 		}
 
 	}
@@ -86,10 +96,6 @@ void Asteroid::Update(){
 
 
 
-
-
-
-	
 
 }
 

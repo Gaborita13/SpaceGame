@@ -28,8 +28,9 @@ public:
 
 	float speed;
 	float rotspeed;
-	static Anim ExplosionAnim;
+	Anim ExplosionAnim;
 	static Texture2D AsteroidImage;
+	static std::vector<Texture2D> ExplosionTextures;
  
 	void Update(); 
 	static void UnloadImages();
