@@ -97,7 +97,7 @@ void Asteroid::Update(){
 
 	}
 	if(!Alive && ExplosionAnim.FrameCounter > 6){
-		std::cout << Exploded << "\n";
+		// std::cout << Exploded << "\n";
 		Exploded = true;
 	}
 

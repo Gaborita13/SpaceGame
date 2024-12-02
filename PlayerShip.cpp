@@ -11,17 +11,23 @@ PlayerShip::PlayerShip(){
 	EngineFrameDelay = 8;
 	EngineFrame = 0;
 	LastFireTime = 0.0;
+	HitBox = {Position.x - 70, Position.y + 20, 50, 58};
 	
 	GunFrameCounter = 0;
 	GunFrameNumber = 7;
 	GunFrameDelay = 4;
 	GunFrame = 0;
-
+	hp = 4;
 	ProjectileFrameNumber = 4;
+	touched = false;
 	
 	Position.x = 200;
 	Position.y = 100;
-	image = LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShipRS.png");
+	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip1HpRS.png"));
+	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip2HpRS.png"));
+	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip3HpRS.png"));
+	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShipFullRS.png"));
+	image = ShipImages[hp - 1];
 	Thruster = LoadTexture("Assets/Foozle/Main/Engine/PNGs/MainShipEngineMod3.png");
 	Gun = LoadTexture("Assets/Foozle/Main/Weapons/PNGs/AutoCannon02.png");
 	Image EngineEffect = LoadImage("Assets/Foozle/Main/EngineEffects/PNGs/EngineEffect2.png");
@@ -50,12 +56,15 @@ PlayerShip::~PlayerShip(){
 	EngineAnimation.UnloadAnim();
 	GunAnimation.UnloadAnim();
 	ProjectileAnim.clear();
+	ShipImages.clear();
 	
 
 	
 }
 
 void PlayerShip::Draw(){
+	
+	
 	if(!shooting){
 		DrawTextureEx(Gun, {Position.x + 10, Position.y}, 90, 1, WHITE);
 		GunAnimation.FrameCounter = 0;
@@ -65,14 +74,27 @@ void PlayerShip::Draw(){
 		GunAnimation.DrawAnim(1, 90, {Position.x + 10, Position.y});
 
 	}
-	DrawTextureEx(image, Position, 90, 1, WHITE);
+	if(touched){
+		DrawTextureEx(image, Position, 90, 1, RED);
+		touched = false;
+	}
+	else{
+		DrawTextureEx(image, Position, 90, 1, WHITE);
+	}
 
 	EngineAnimation.DrawAnim(1 , 90 , {Position.x - 10, Position.y});
 		
 		
 	
 	DrawTextureEx(Thruster, {Position.x - 10, Position.y}, 90, 1, WHITE);
+	// DrawRectangleLines(Position.x - 70, Position.y + 20, 50, 58, RED);
 
+}
+
+void PlayerShip::Update(){
+
+	HitBox = {Position.x - 70, Position.y + 20, 50, 58};
+	image = ShipImages[hp - 1];
 }
 
 void PlayerShip::MoveLeft(){

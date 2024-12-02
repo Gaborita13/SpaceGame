@@ -18,7 +18,10 @@ class PlayerShip{
 		void MoveDown();
 		void ShootProjectile();
 		void Draw();
+		void Update();
 		bool moving;
+		int hp;
+		bool touched;
 		bool shooting;
 		float LastFireTime;
 		
@@ -36,9 +39,12 @@ class PlayerShip{
 		int GunFrameNumber;
 		int GunFrame;
 		Anim GunAnimation;
+		Rectangle HitBox;
 		
 		Vector2 Position;
 		Texture2D image;
+		std::vector<Texture2D> ShipImages;
+
 		Texture2D Thruster;
 		Texture2D Gun;
 		std::vector<Texture2D> EngineAnim;

@@ -47,6 +47,7 @@ void Game::Update(){
 	}
 	Planet::scrolling  = Planet::scrolling - Planet::scrollingspeed; 
 	HandleInput();
+	player.Update();
 	for(Projectile& bullet : player.projectiles){
 		bullet.Update();
 	}
@@ -113,12 +114,12 @@ void Game::DeleteInactiveProjectiles(){
 }
 
 void Game::DeleteInactiveAsteroids(){
-	std::cout << asteroids.size() << "\n";
+	// std::cout << asteroids.size() << "\n";
 
 	for(auto it = asteroids.begin(); it != asteroids.end();){
 		if(it -> Exploded){
 			it = asteroids.erase(it);
-			std::cout << "Deleted\n";
+			// std::cout << "Deleted\n";
 		}
 		else{
 
@@ -132,7 +133,7 @@ void Game::SpawnAsteroid(){
 
 	if(!asteroid.Alive){
 		SpawnCounter++;
-		std::cout << SpawnCounter << "\n";
+		// std::cout << SpawnCounter << "\n";
 		
 			if(SpawnCounter > 50){
 				float randratio = (float) GetRandomValue(10, 50) / 10;
@@ -181,7 +182,7 @@ void Game::HandleCollisions(){
 
 					}
 					else{
-						std::cout << "Here\n";
+						// std::cout << "Here\n";
 						it1 -> hp = 0;
 					}
 				}
@@ -191,5 +192,20 @@ void Game::HandleCollisions(){
 			it1++;
 		}
 
-	} 
+	}
+	
+	auto it = asteroids.begin();
+	while(it != asteroids.end()){
+		if(CheckCollisionCircleRec({it -> Position.x, it -> Position.y},
+		 it -> HitBoxRadius, player.HitBox) && it -> Alive){
+			if(player.hp > 1){
+				player.hp--;
+			}
+			player.touched = true;
+			it -> hp = 0;
+
+		}
+		++ it;
+	}
+
 }
