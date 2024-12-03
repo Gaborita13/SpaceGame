@@ -67,3 +67,19 @@ void Anim::UnloadAnim(){
 	// std::cout << "Call\n";
 	animation.clear();
 }
+
+void Anim::DrawAnimOnce(float ratio, float angle, Vector2 Position){
+
+	Frame++;
+	if(Frame >= FrameDelay && FrameCounter < FrameNumber - 1){
+		
+		
+		FrameCounter++;
+		Frame = 0;
+
+
+	}
+
+	DrawTextureEx(animation[FrameCounter], Position, angle, ratio, WHITE);
+
+}

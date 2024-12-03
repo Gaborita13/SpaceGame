@@ -197,8 +197,8 @@ void Game::HandleCollisions(){
 	auto it = asteroids.begin();
 	while(it != asteroids.end()){
 		if(CheckCollisionCircleRec({it -> Position.x, it -> Position.y},
-		 it -> HitBoxRadius, player.HitBox) && it -> Alive){
-			if(player.hp > 1){
+		 it -> HitBoxRadius, player.HitBox) && it -> Alive && player.hp > 0){
+			if(player.hp > 0){
 				player.hp--;
 			}
 			player.touched = true;

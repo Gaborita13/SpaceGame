@@ -33,6 +33,12 @@ class PlayerShip{
 		int EngineFrameNumber;
 		int EngineFrame;
 		Anim EngineAnimation;
+
+		int ExplosionFrameDelay;
+		int ExplosionFrameCounter;
+		int ExplosionFrameNumber;
+		int ExplosionFrame;
+		Anim ExplosionAnimation;
 		
 		int GunFrameDelay;
 		int GunFrameCounter;
@@ -50,6 +56,7 @@ class PlayerShip{
 		std::vector<Texture2D> EngineAnim;
 		std::vector<Texture2D> GunAnim;
 		std::vector<Texture2D> ProjectileAnim;
+		std::vector<Texture2D> ShipExplosionAnim;
 		std::vector<Projectile> projectiles;
 };
 

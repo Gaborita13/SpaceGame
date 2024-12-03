@@ -20,6 +20,7 @@ public:
 
 	
 	void DrawAnim(float ratio, float angle, Vector2 Position);
+	void DrawAnimOnce(float ratio, float angle, Vector2 Position);
 	void DrawAnimPro(float ratio, float angle, Vector2 Position, bool once);
 	void DrawAnimProOnce(float ratio, float angle, Vector2 Position);
 	void UnloadAnim();

@@ -26,6 +26,7 @@ namespace util{
 	extern Color LaserColor;
 	extern Color BlockColor;
 	extern std::vector<Texture2D> PNGtoAnim(Image image, int number);
+	extern std::vector<Texture2D> PNGArraytoAnim(Image image, int numberline,int numbercolumn);
 	extern Image BulletImage;
 	
 	

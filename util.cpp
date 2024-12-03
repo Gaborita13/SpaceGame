@@ -30,4 +30,22 @@ namespace util{
 		
 	}
 
+	std::vector<Texture2D> PNGArraytoAnim(Image image, int numberline, int numbercolumn){
+		int Width = image.width / numbercolumn;
+		int Height = image.height / numberline;
+		Rectangle CropRec;
+		std::vector<Texture2D> anim;
+		for(int i = 0; i < numberline; i++){
+			for(int j = 0; j < numbercolumn; j++){
+				CropRec = {(float)Width * j, (float)Height * i, (float)Width, (float)Height};
+				Image tempimage = ImageFromImage(image, CropRec);
+				Texture2D temptexture = LoadTextureFromImage (tempimage);
+				anim.push_back(temptexture);
+				UnloadImage(tempimage);
+			}
+		}
+		return anim; 
+
+	}
+
 }

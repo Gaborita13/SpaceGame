@@ -20,6 +20,11 @@ PlayerShip::PlayerShip(){
 	hp = 4;
 	ProjectileFrameNumber = 4;
 	touched = false;
+
+	ExplosionFrameDelay = 2;
+	ExplosionFrameCounter = 0;
+	ExplosionFrameNumber = 75;
+	ExplosionFrame = 0;
 	
 	Position.x = 200;
 	Position.y = 100;
@@ -33,19 +38,24 @@ PlayerShip::PlayerShip(){
 	Image EngineEffect = LoadImage("Assets/Foozle/Main/EngineEffects/PNGs/EngineEffect2.png");
 	Image GunEffect = LoadImage("Assets/Foozle/Main/Weapons/PNGs/AutoCannon2.png");
 	Image ProjectileEffect = LoadImage("Assets/Foozle/Main ship weapons/PNGs/Bullet.png");
+	Image ExplosionEffect = LoadImage("Assets/spritesheet/spritesheet.png");
 
 
-	
+	ShipExplosionAnim = util::PNGArraytoAnim(ExplosionEffect, 8, 10);
 	EngineAnim = util::PNGtoAnim(EngineEffect, EngineFrameNumber);
 	GunAnim = util::PNGtoAnim(GunEffect, GunFrameNumber);
 	ProjectileAnim = util::PNGtoAnim(ProjectileEffect, ProjectileFrameNumber);
+	UnloadImage(ExplosionEffect);
 	UnloadImage(EngineEffect);
 	UnloadImage(GunEffect);
 	UnloadImage(ProjectileEffect);
 	EngineAnimation = Anim(EngineFrameDelay, EngineFrameCounter, EngineFrameNumber, EngineFrame, EngineAnim);
 	GunAnimation = Anim(GunFrameDelay, GunFrameCounter, GunFrameNumber, GunFrame, GunAnim);
+	ExplosionAnimation = Anim(ExplosionFrameDelay, ExplosionFrameCounter, 
+		ExplosionFrameNumber, ExplosionFrame, ShipExplosionAnim); 
 	EngineAnim.clear();
 	GunAnim.clear();
+	ShipExplosionAnim.clear();
 
 }
 
@@ -55,6 +65,7 @@ PlayerShip::~PlayerShip(){
 	UnloadTexture(Gun);
 	EngineAnimation.UnloadAnim();
 	GunAnimation.UnloadAnim();
+	ExplosionAnimation.UnloadAnim();
 	ProjectileAnim.clear();
 	ShipImages.clear();
 	
@@ -63,38 +74,49 @@ PlayerShip::~PlayerShip(){
 }
 
 void PlayerShip::Draw(){
+	if(hp>0){
 	
 	
-	if(!shooting){
-		DrawTextureEx(Gun, {Position.x + 10, Position.y}, 90, 1, WHITE);
-		GunAnimation.FrameCounter = 0;
-		GunAnimation.Frame = 0;	
-	}
-	else{
-		GunAnimation.DrawAnim(1, 90, {Position.x + 10, Position.y});
+	
+		if(!shooting){
+			DrawTextureEx(Gun, {Position.x + 10, Position.y}, 90, 1, WHITE);
+			GunAnimation.FrameCounter = 0;
+			GunAnimation.Frame = 0;	
+		}
+		else{
+			GunAnimation.DrawAnim(1, 90, {Position.x + 10, Position.y});
 
-	}
-	if(touched){
-		DrawTextureEx(image, Position, 90, 1, RED);
-		touched = false;
-	}
-	else{
-		DrawTextureEx(image, Position, 90, 1, WHITE);
-	}
+		}
+		if(touched){
+			DrawTextureEx(image, Position, 90, 1, RED);
+			touched = false;
+		}
+		else{
+			DrawTextureEx(image, Position, 90, 1, WHITE);
+		}
 
-	EngineAnimation.DrawAnim(1 , 90 , {Position.x - 10, Position.y});
+		EngineAnimation.DrawAnim(1 , 90 , {Position.x - 10, Position.y});
+			
 		
 		
-	
-	DrawTextureEx(Thruster, {Position.x - 10, Position.y}, 90, 1, WHITE);
+		DrawTextureEx(Thruster, {Position.x - 10, Position.y}, 90, 1, WHITE);
+	}
+	else{
+
+	ExplosionAnimation.DrawAnimOnce(2, 90, {Position.x + image.width / 2, Position.y - image.width / 2});
+	}
 	// DrawRectangleLines(Position.x - 70, Position.y + 20, 50, 58, RED);
+	std::cout << hp << "\n";
 
 }
 
 void PlayerShip::Update(){
 
-	HitBox = {Position.x - 70, Position.y + 20, 50, 58};
-	image = ShipImages[hp - 1];
+	if(hp > 0){
+
+		HitBox = {Position.x - 70, Position.y + 20, 50, 58};
+		image = ShipImages[hp - 1];
+	}
 }
 
 void PlayerShip::MoveLeft(){
@@ -128,7 +150,7 @@ void PlayerShip::MoveDown(){
 }
 
 void PlayerShip::ShootProjectile(){
-	if(shooting){
+	if(shooting && hp > 0){
 		// if(GetTime() - LastFireTime > 0.015){
 			if(GunAnimation.Frame == 2 && GunAnimation.FrameCounter == 0){
 				// std::cout << GunAnimation.FrameCounter;
