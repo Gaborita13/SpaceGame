@@ -12,6 +12,10 @@ Game::Game(){
 	// asteroid1 = Asteroid({500, 100},0 , 4, -1, -1, 3);
 	counter = 0;
 	SpawnCounter = 0;
+	polygonpoints.push_back({200,200});
+	polygonpoints.push_back({250, 200});
+	polygonpoints.push_back({200, 250});
+	// polygon = Poly(polygonpoints, {0, 0}, 90);
 	// bullet = Projectile({100, 100}, 2);
 	
 }
@@ -24,6 +28,7 @@ Game::~Game(){
 }
 
 void Game::Draw(){
+	
 	for(Planet planet : planets){
 		planet.Draw();
 	}
@@ -37,7 +42,7 @@ void Game::Draw(){
 	}
 	// asteroid1.Draw();
 
-
+	// polygon.Draw();
 }
 
 void Game::Update(){
@@ -64,29 +69,30 @@ void Game::Update(){
 		asteroid.Update();
 	}
 	
-	
+	// polygon.Rotate(1);
+	// polygon.Translate({1, 0});
 	// HandleCollisions();
 }
 
 void Game::HandleInput(){
 	
-	if(IsKeyDown(KEY_UP)){
+	if(IsKeyDown(KEY_UP) && player.hp > 0){
 		player.MoveUp();
 		
 	}
-	if(IsKeyDown(KEY_DOWN)){
+	if(IsKeyDown(KEY_DOWN) && player.hp > 0){
 		player.MoveDown();
 		
 		
 	}
-	if(IsKeyDown(KEY_RIGHT)){
+	if(IsKeyDown(KEY_RIGHT) && player.hp > 0){
 		player.MoveRight();
 		
 	}
-	if(IsKeyDown(KEY_LEFT)){
+	if(IsKeyDown(KEY_LEFT) && player.hp > 0){
 		player.MoveLeft();
 	}
-	if(IsKeyDown(KEY_SPACE)){
+	if(IsKeyDown(KEY_SPACE) && player.hp > 0){
 		counter++;
 		if(counter > 10){
 			player.shooting = true;
@@ -96,6 +102,9 @@ void Game::HandleInput(){
 	else{
 		counter = 0;
 		player.shooting = false;
+	}
+	if(IsKeyDown(KEY_R) && player.hp == 0){
+		player.Revive();
 	}
 }
 

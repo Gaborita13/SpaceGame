@@ -2,16 +2,16 @@
 #define PROJECTILE_H
 
 #include "raylib.h"
+#include "Entity.hpp"
 #include "util.hpp"
 #include "Anim.hpp"
 #include <vector>
 
-class Projectile{
+class Projectile : public Entity{
 public:
 	Projectile(Vector2 position, int speed, std::vector<Texture2D> ProjectileAnim);
 	Projectile();
 	~Projectile();
-	Vector2 position;
 	Rectangle HitBox;
 	int speed;
 	bool active;

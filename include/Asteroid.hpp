@@ -3,9 +3,11 @@
 
 #include <vector>
 #include "Anim.hpp"
+#include "Entity.hpp"
 #include "raylib.h"
+#include "Poly.hpp"
 
-class Asteroid{
+class Asteroid : public Entity{
 public:
 	Asteroid();
 	Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, int ratio, std::vector<Texture2D> ExplosionAnim);
@@ -15,12 +17,13 @@ public:
 	bool Alive;
 	bool Exploded;
 	bool touched;
-	Vector2 Position;
-	Vector2 NextPosition;
 	float orientation;
 	float AsteroidRadius;
 	float HitBoxRadius;
 	Vector2 HitBoxCenter;
+
+	std::vector<Vector2> polygonpoints;
+	Poly polygon;
 
 	int AsteroidFrameCounter;
 	int AsteroidFrameNumber;
@@ -33,8 +36,9 @@ public:
 	static Texture2D AsteroidImage;
 	static std::vector<Texture2D> ExplosionTextures;
  
-	void Update(); 
+ 
 	static void UnloadImages();
+	void Update();
 	void Draw();
 	void getCircle();
 

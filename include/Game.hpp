@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include "util.hpp"
+#include "Poly.hpp"
 #include "PlayerShip.hpp"
 #include "Planet.hpp"
 #include "Projectile.hpp"
@@ -23,6 +24,8 @@ class Game{
 	
 
 	int counter;
+	std::vector<Vector2> polygonpoints;
+	Poly polygon;
 	int SpawnCounter;
 	float LastAsteroidSpawn;
 	PlayerShip player;

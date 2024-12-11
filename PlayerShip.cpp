@@ -1,7 +1,7 @@
 #include "include/PlayerShip.hpp"
 
 
-PlayerShip::PlayerShip(){
+PlayerShip::PlayerShip() : Entity({200, 100}) {
 	
 	moving = true;
 	shooting = false;
@@ -26,8 +26,6 @@ PlayerShip::PlayerShip(){
 	ExplosionFrameNumber = 75;
 	ExplosionFrame = 0;
 	
-	Position.x = 200;
-	Position.y = 100;
 	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip1HpRS.png"));
 	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip2HpRS.png"));
 	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip3HpRS.png"));
@@ -106,7 +104,7 @@ void PlayerShip::Draw(){
 	ExplosionAnimation.DrawAnimOnce(2, 90, {Position.x + image.width / 2, Position.y - image.width / 2});
 	}
 	// DrawRectangleLines(Position.x - 70, Position.y + 20, 50, 58, RED);
-	std::cout << hp << "\n";
+	// std::cout << hp << "\n";
 
 }
 
@@ -163,4 +161,13 @@ void PlayerShip::ShootProjectile(){
 			LastFireTime = GetTime();
 		// }
 	}
+}
+
+void PlayerShip::Revive(){
+	hp = 4;
+	Position.x = 200;
+	Position.y = 100;
+	ExplosionAnimation.FrameCounter = 0;
+	ExplosionAnimation.Frame = 0;
+
 }

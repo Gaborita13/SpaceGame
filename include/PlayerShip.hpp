@@ -3,12 +3,13 @@
 
 #include "raylib.h"
 #include "Anim.hpp"
+#include "Entity.hpp"
 #include "Projectile.hpp"
 #include "util.hpp"
 #include <vector>
 
 
-class PlayerShip{
+class PlayerShip : public Entity{
 	public:
 		PlayerShip();
 		~PlayerShip();
@@ -17,6 +18,7 @@ class PlayerShip{
 		void MoveUp();
 		void MoveDown();
 		void ShootProjectile();
+		void Revive();
 		void Draw();
 		void Update();
 		bool moving;
@@ -47,7 +49,6 @@ class PlayerShip{
 		Anim GunAnimation;
 		Rectangle HitBox;
 		
-		Vector2 Position;
 		Texture2D image;
 		std::vector<Texture2D> ShipImages;
 

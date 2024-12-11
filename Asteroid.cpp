@@ -15,17 +15,24 @@ Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, flo
 }
 
 
-Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, float ratio){
-	this -> Position = Position;
+Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, float ratio) : Entity(Position){
 	this -> orientation = orientation;
 	this -> hp = hp;
 	this -> speed = speed;
 	this -> rotspeed = rotspeed;
-	this -> ratio = ratio;
+	this-> ratio = ratio;
 	touched = false;
-	NextPosition = Position; 
 	AsteroidRadius = 16;
 	HitBoxRadius = AsteroidRadius * ratio;
+	// polygonpoints.push_back({0* ratio, -15* ratio});
+	// polygonpoints.push_back({10* ratio, -10* ratio});
+	// polygonpoints.push_back({15* ratio, -5* ratio});
+	// polygonpoints.push_back({18* ratio, 0* ratio});
+	// polygonpoints.push_back({17* ratio, 2* ratio});
+	// polygonpoints.push_back({15* ratio, 5* ratio});
+	// polygonpoints.push_back({12* ratio, 10* ratio});
+
+	// polygon = Poly(polygonpoints, {Position.x, Position.y}, 0);
 
 	AsteroidFrameCounter = 0;
 	AsteroidFrameNumber = 8;
@@ -56,7 +63,7 @@ void Asteroid::UnloadImages(){
 void Asteroid::Draw(){
 
 	if(Alive){
-
+		
 		if(!touched){
 			DrawTexturePro(AsteroidImage, (Rectangle){0, 0, (float)AsteroidImage.width, (float)AsteroidImage.height },
 	 		(Rectangle){Position.x, Position.y, ratio * (float)AsteroidImage.width, ratio *  (float)AsteroidImage.height},
@@ -75,6 +82,7 @@ void Asteroid::Draw(){
 	{
 		ExplosionAnim.DrawAnimProOnce(ratio, orientation, Position);
 	}
+	// polygon.Draw();
 
 }
 
@@ -83,6 +91,8 @@ void Asteroid::Update(){
 		if(Position.x + ratio * AsteroidImage.width > 0){
 			Position.x += speed;
 			orientation += rotspeed;
+			// polygon.Translate({speed , 0});
+			// polygon.Rotate(rotspeed);
 		}
 
 		else{
