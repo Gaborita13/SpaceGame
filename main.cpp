@@ -12,11 +12,12 @@ std::string FormatWithLeadingZeros(int number, int width){
 }
 
 int main(){
-	float scrollingBackground = 0;
+
 	
 	InitWindow(util::windowswidth, util::windowheight, util::title);
+	InitAudioDevice();
 	SetTargetFPS(util::FPS);
-	Texture2D BackGround = LoadTexture("Assets/Pixel_Art_Space/Pixel_Art_Space/Back.png");
+
 
 	
 
@@ -27,18 +28,13 @@ int main(){
 	while(!WindowShouldClose()){
 		
 
-		if(scrollingBackground <= - 4.5 * BackGround.width){
-			scrollingBackground = 0;
-		}
-		
-		scrollingBackground -= 0.1;
+
 
 		game.Update();
+		UpdateMusicStream(game.BackGroundMusic);
 		
 		BeginDrawing();
-		
-		DrawTextureEx(BackGround, {scrollingBackground, 0}, 0.0, 4.5, WHITE);
-		DrawTextureEx(BackGround, {BackGround.width * 4.5 + scrollingBackground, 0}, 0.0, 4.5, WHITE);
+
 		
 
 		
@@ -50,11 +46,11 @@ int main(){
 		
 	}
 	
-	
 
 
 
 
+	CloseAudioDevice();
 	CloseWindow();
 	
 	

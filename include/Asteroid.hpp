@@ -34,6 +34,8 @@ public:
 	float rotspeed;
 	Anim ExplosionAnim;
 	static Texture2D AsteroidImage;
+	static Sound AsteroidExplosionSound;
+	Sound LocalAsteroidExplosionSound;
 	static std::vector<Texture2D> ExplosionTextures;
  
  

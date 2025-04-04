@@ -6,13 +6,17 @@ PlayerShip::PlayerShip() : Entity({200, 100}) {
 	moving = true;
 	shooting = false;
 	
+	PlayerShield = Shield(Position);
+	ShieldTime = 240;
+	HitBoxCircleRadius = 51;
 	EngineFrameCounter = 0;
 	EngineFrameNumber = 4;
 	EngineFrameDelay = 8;
 	EngineFrame = 0;
 	LastFireTime = 0.0;
+	ShipExplosionSound = LoadSound("Assets/Sound/Ship_Explosion.mp3");
 	HitBox = {Position.x - 70, Position.y + 20, 50, 58};
-	
+	Exploded = false;
 	GunFrameCounter = 0;
 	GunFrameNumber = 7;
 	GunFrameDelay = 4;
@@ -91,6 +95,7 @@ void PlayerShip::Draw(){
 		}
 		else{
 			DrawTextureEx(image, Position, 90, 1, WHITE);
+
 		}
 
 		EngineAnimation.DrawAnim(1 , 90 , {Position.x - 10, Position.y});
@@ -101,19 +106,33 @@ void PlayerShip::Draw(){
 	}
 	else{
 
-	ExplosionAnimation.DrawAnimOnce(2, 90, {Position.x + image.width / 2, Position.y - image.width / 2});
+		ExplosionAnimation.DrawAnimOnce(2, 90, {Position.x + image.width / 2, Position.y - image.width / 2});
+		if(!Exploded){
+			PlaySound(ShipExplosionSound);
+		}
+		Exploded = true;
+
 	}
+	if(ActiveShield){
+		PlayerShield.Draw();
+	}
+	// DrawCircleLines(Position.x - 56, Position.y + 49, 51, RED);
+
 	// DrawRectangleLines(Position.x - 70, Position.y + 20, 50, 58, RED);
 	// std::cout << hp << "\n";
 
 }
 
 void PlayerShip::Update(){
-
+	HitBoxCircleCenter = {Position.x - 56, Position.y + 49};
+	if(ActiveShield && ShieldTime > 0){
+		ShieldTime --;
+	}
 	if(hp > 0){
 
 		HitBox = {Position.x - 70, Position.y + 20, 50, 58};
 		image = ShipImages[hp - 1];
+		PlayerShield.Position = Position;
 	}
 }
 
@@ -166,7 +185,9 @@ void PlayerShip::ShootProjectile(){
 void PlayerShip::Revive(){
 	hp = 4;
 	Position.x = 200;
+	Exploded = false;
 	Position.y = 100;
+	ShieldTime = 240;
 	ExplosionAnimation.FrameCounter = 0;
 	ExplosionAnimation.Frame = 0;
 

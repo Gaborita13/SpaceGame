@@ -6,6 +6,7 @@
 #include "Entity.hpp"
 #include "Projectile.hpp"
 #include "util.hpp"
+#include "Shield.hpp"
 #include <vector>
 
 
@@ -25,10 +26,12 @@ class PlayerShip : public Entity{
 		int hp;
 		bool touched;
 		bool shooting;
+		bool Exploded;
+		bool ActiveShield;
+		int ShieldTime;
 		float LastFireTime;
 		
 		int ProjectileFrameNumber;
-
 
 		int EngineFrameDelay;
 		int EngineFrameCounter;
@@ -48,9 +51,13 @@ class PlayerShip : public Entity{
 		int GunFrame;
 		Anim GunAnimation;
 		Rectangle HitBox;
+		int HitBoxCircleRadius;
+		Vector2 HitBoxCircleCenter;
 		
 		Texture2D image;
 		std::vector<Texture2D> ShipImages;
+		Sound ShipExplosionSound;
+		Shield PlayerShield;
 
 		Texture2D Thruster;
 		Texture2D Gun;

@@ -5,6 +5,7 @@ namespace util{
 	Color grey = {29, 29, 27, 255};
 	Color LaserColor = {243, 216, 63, 255};
 	Color BlockColor = {243, 216, 63, 255};
+	Sound AsteroidExplosionSound = LoadSound("Assets/Sound/Asteroid_Explosion.mp3");
 	std::vector<Texture2D> PNGtoAnim(Image image, int number){
 		int Width = image.width / number;
 		int Height = image.height;

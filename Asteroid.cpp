@@ -4,6 +4,8 @@
 Texture2D Asteroid::AsteroidImage;
 std::vector<Texture2D> Asteroid::ExplosionTextures;
 
+Sound Asteroid::AsteroidExplosionSound;
+
 
 Asteroid::Asteroid(){
 	Alive = false;
@@ -45,6 +47,11 @@ Asteroid::Asteroid(Vector2 Position, float orientation, int hp, float speed, flo
 	if(AsteroidImage.id == 0){
 		AsteroidImage = LoadTexture("Assets/Foozle/Asteroids/PNGs/Asteroid.png");
 	}
+	if(AsteroidExplosionSound.frameCount == 0){
+		AsteroidExplosionSound = LoadSound("Assets/Sound/Asteroid_Explosion.mp3");
+	}
+
+	LocalAsteroidExplosionSound = LoadSoundAlias(AsteroidExplosionSound);
 	
 if(ExplosionTextures.empty()){
 		ExplosionTextures = util::PNGtoAnim(LoadImage("Assets/Foozle/Asteroids/PNGs/asteroid_explosion.png"),8);
@@ -78,9 +85,13 @@ void Asteroid::Draw(){
 		// DrawCircleLinesV(Position, HitBoxRadius, RED);
 
 	}
-	if(!Alive && hp > -20)
-	{
+	if(!Alive && hp > -4)
+	{	
+		
 		ExplosionAnim.DrawAnimProOnce(ratio, orientation, Position);
+		
+		
+		
 	}
 	// polygon.Draw();
 
@@ -100,6 +111,7 @@ void Asteroid::Update(){
 			HitBoxRadius = 0;
 		}
 		if(hp <= 0){
+			PlaySound(LocalAsteroidExplosionSound);
 			Alive = false;
 			HitBoxRadius = 0;
 		}

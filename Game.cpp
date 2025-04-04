@@ -2,7 +2,9 @@
 
 
 Game::Game(){
-
+	Background background;
+	BackGroundMusic = LoadMusicStream("Assets/Music/MergeOST.wav");
+	PlayMusicStream(BackGroundMusic);
 	for(int i = 1; i < 10; i++){
 		planets.push_back(Planet(i));
 	}
@@ -21,13 +23,18 @@ Game::Game(){
 }
 
 Game::~Game(){
+	UnloadMusicStream(BackGroundMusic);
 	for(Planet planet : planets){
 		planet.unloadimage();
 	}
 	Asteroid::UnloadImages();
+	UnloadTexture(background.BackgroundTexture);
+	UnloadSound(Asteroid::AsteroidExplosionSound);
 }
 
 void Game::Draw(){
+	
+	background.Draw();
 	
 	for(Planet planet : planets){
 		planet.Draw();
@@ -46,6 +53,7 @@ void Game::Draw(){
 }
 
 void Game::Update(){
+	background.Update();
 	Planet lastplanet = planets.back();
 	if(Planet::scrolling + lastplanet.XPos <= - lastplanet.ratio * lastplanet.image.width){
 		Planet::scrolling = 900;
@@ -92,6 +100,7 @@ void Game::HandleInput(){
 	if(IsKeyDown(KEY_LEFT) && player.hp > 0){
 		player.MoveLeft();
 	}
+
 	if(IsKeyDown(KEY_SPACE) && player.hp > 0){
 		counter++;
 		if(counter > 10){
@@ -106,6 +115,16 @@ void Game::HandleInput(){
 	if(IsKeyDown(KEY_R) && player.hp == 0){
 		player.Revive();
 	}
+	if(IsKeyDown(KEY_L)){
+		player.ShieldTime += 20;
+	}
+	if(IsKeyDown(KEY_S) && player.hp > 0 && player.ShieldTime > 0){
+		player.ActiveShield = true;
+	}
+	else{
+		player.ActiveShield = false;
+	}
+	std::cout << player.ShieldTime << std::endl;
 }
 
 void Game::DeleteInactiveProjectiles(){
@@ -128,6 +147,7 @@ void Game::DeleteInactiveAsteroids(){
 	for(auto it = asteroids.begin(); it != asteroids.end();){
 		if(it -> Exploded){
 			it = asteroids.erase(it);
+			// UnloadSound(it -> LocalAsteroidExplosionSound);
 			// std::cout << "Deleted\n";
 		}
 		else{
@@ -215,6 +235,17 @@ void Game::HandleCollisions(){
 
 		}
 		++ it;
+	}
+	if(player.ActiveShield){
+		auto it = asteroids.begin();
+		while(it != asteroids.end()){
+		if(CheckCollisionCircles({it -> Position.x, it -> Position.y},
+		 it -> HitBoxRadius, player.HitBoxCircleCenter, player.HitBoxCircleRadius) && it -> Alive && player.hp > 0){
+			it -> hp = 0;
+
+		}
+		++ it;
+		}
 	}
 
 }

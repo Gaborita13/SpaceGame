@@ -20,6 +20,7 @@ public:
 	int BulletFrameCounter;
 	int BulletFrameNumber;
 	int BulletFrame;
+	static Sound BulletSound;
 	Anim ProjectileAnimation;
 
 

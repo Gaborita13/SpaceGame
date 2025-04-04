@@ -23,6 +23,7 @@ namespace util{
 	const double AttackSpeed = 0.35;  
 	extern const char *title;
 	extern Color grey;
+	extern Sound AsteroidExplosionSound;
 	extern Color LaserColor;
 	extern Color BlockColor;
 	extern std::vector<Texture2D> PNGtoAnim(Image image, int number);
