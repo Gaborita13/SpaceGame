@@ -10,6 +10,7 @@
 #include "Projectile.hpp"
 #include "Asteroid.hpp"
 #include "Shield.hpp"
+#include "GUI.hpp"
 #include <vector>
 
 class Game{
@@ -34,8 +35,10 @@ class Game{
 	float LastAsteroidSpawn;
 	PlayerShip player;
 	Shield shield1;
+	int Distance;
 	Asteroid asteroid1;
 	Projectile bullet;
+	GUI MainGUI;
 	Background background;
 	std::vector<Planet> planets;
 	std::vector<Asteroid> asteroids;

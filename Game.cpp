@@ -2,6 +2,7 @@
 
 
 Game::Game(){
+	Distance = 0;
 	Background background;
 	BackGroundMusic = LoadMusicStream("Assets/Music/MergeOST.wav");
 	PlayMusicStream(BackGroundMusic);
@@ -14,9 +15,10 @@ Game::Game(){
 	// asteroid1 = Asteroid({500, 100},0 , 4, -1, -1, 3);
 	counter = 0;
 	SpawnCounter = 0;
-	polygonpoints.push_back({200,200});
-	polygonpoints.push_back({250, 200});
-	polygonpoints.push_back({200, 250});
+	MainGUI = GUI(player.ShieldTime);
+	// polygonpoints.push_back({200,200});
+	// polygonpoints.push_back({250, 200});
+	// polygonpoints.push_back({200, 250});
 	// polygon = Poly(polygonpoints, {0, 0}, 90);
 	// bullet = Projectile({100, 100}, 2);
 	
@@ -47,16 +49,21 @@ void Game::Draw(){
 	for(Asteroid& asteroid : asteroids){
 		asteroid.Draw();
 	}
+	MainGUI.Draw();
 	// asteroid1.Draw();
 
 	// polygon.Draw();
 }
 
 void Game::Update(){
+
 	background.Update();
 	Planet lastplanet = planets.back();
 	if(Planet::scrolling + lastplanet.XPos <= - lastplanet.ratio * lastplanet.image.width){
 		Planet::scrolling = 900;
+	}
+	if(player.hp > 0){
+		Distance++;
 	}
 	Planet::scrolling  = Planet::scrolling - Planet::scrollingspeed; 
 	HandleInput();
@@ -76,6 +83,11 @@ void Game::Update(){
 	for(Asteroid& asteroid : asteroids){
 		asteroid.Update();
 	}
+
+	MainGUI.ShieldTime = player.ShieldTime;
+	MainGUI.Distance = Distance;
+
+	MainGUI.Update();
 	
 	// polygon.Rotate(1);
 	// polygon.Translate({1, 0});
@@ -114,6 +126,7 @@ void Game::HandleInput(){
 	}
 	if(IsKeyDown(KEY_R) && player.hp == 0){
 		player.Revive();
+		Distance = 0;
 	}
 	if(IsKeyDown(KEY_L)){
 		player.ShieldTime += 20;
@@ -124,7 +137,7 @@ void Game::HandleInput(){
 	else{
 		player.ActiveShield = false;
 	}
-	std::cout << player.ShieldTime << std::endl;
+	// std::cout << player.ShieldTime << std::endl;
 }
 
 void Game::DeleteInactiveProjectiles(){
@@ -170,9 +183,9 @@ void Game::SpawnAsteroid(){
 				float randspeed = (float) GetRandomValue(10, 50) / 10;
 				float randrotspeed = (float) GetRandomValue(10, 50) / 10;
 				float randypos = (float) GetRandomValue(0, 5000) / 10;
-				int randhp = GetRandomValue(5, 20);
+				int randhp = randratio * 3;
 				float xpos = 900;
-				asteroids.push_back(Asteroid({xpos, randypos}, randorientation, 5, -randspeed, -randrotspeed, randratio));
+				asteroids.push_back(Asteroid({xpos, randypos}, randorientation, randhp, -randspeed, -randrotspeed, randratio));
 				SpawnCounter = 0;
 			}
 
