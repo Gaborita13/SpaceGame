@@ -1,4 +1,4 @@
-#include "include/Projectile.hpp"
+#include "Projectile.hpp"
 
 // Image Projectile::ProjectileImage = LoadImage("Assets/Foozle/Main ship weapons/PNGs/Bullet.png");
 
@@ -19,7 +19,7 @@ Projectile::Projectile(Vector2 Position, int speed, std::vector<Texture2D> Proje
 	BulletFrameDelay = 8;
 	BulletFrame = 0;
 	if(BulletSound.frameCount == 0){
-		BulletSound = LoadSound("Assets/Sound/heavy_machinegun.ogg");
+		BulletSound = LoadSound("../Assets/Sound/heavy_machinegun.ogg");
 	}
 	SetSoundVolume(BulletSound, 0.5);
 	PlaySound(BulletSound);

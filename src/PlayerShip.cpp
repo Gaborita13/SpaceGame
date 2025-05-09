@@ -1,4 +1,4 @@
-#include "include/PlayerShip.hpp"
+#include "PlayerShip.hpp"
 
 
 PlayerShip::PlayerShip() : Entity({200, 100}) {
@@ -14,7 +14,7 @@ PlayerShip::PlayerShip() : Entity({200, 100}) {
 	EngineFrameDelay = 8;
 	EngineFrame = 0;
 	LastFireTime = 0.0;
-	ShipExplosionSound = LoadSound("Assets/Sound/Ship_Explosion.mp3");
+	ShipExplosionSound = LoadSound("../Assets/Sound/Ship_Explosion.mp3");
 	HitBox = {Position.x - 70, Position.y + 20, 50, 58};
 	Exploded = false;
 	GunFrameCounter = 0;
@@ -30,17 +30,17 @@ PlayerShip::PlayerShip() : Entity({200, 100}) {
 	ExplosionFrameNumber = 75;
 	ExplosionFrame = 0;
 	
-	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip1HpRS.png"));
-	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip2HpRS.png"));
-	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShip3HpRS.png"));
-	ShipImages.push_back(LoadTexture("Assets/Foozle/Main/Base/PNGs/MainShipFullRS.png"));
+	ShipImages.push_back(LoadTexture("../Assets/Foozle/Main/Base/PNGs/MainShip1HpRS.png"));
+	ShipImages.push_back(LoadTexture("../Assets/Foozle/Main/Base/PNGs/MainShip2HpRS.png"));
+	ShipImages.push_back(LoadTexture("../Assets/Foozle/Main/Base/PNGs/MainShip3HpRS.png"));
+	ShipImages.push_back(LoadTexture("../Assets/Foozle/Main/Base/PNGs/MainShipFullRS.png"));
 	image = ShipImages[hp - 1];
-	Thruster = LoadTexture("Assets/Foozle/Main/Engine/PNGs/MainShipEngineMod3.png");
-	Gun = LoadTexture("Assets/Foozle/Main/Weapons/PNGs/AutoCannon02.png");
-	Image EngineEffect = LoadImage("Assets/Foozle/Main/EngineEffects/PNGs/EngineEffect2.png");
-	Image GunEffect = LoadImage("Assets/Foozle/Main/Weapons/PNGs/AutoCannon2.png");
-	Image ProjectileEffect = LoadImage("Assets/Foozle/Main ship weapons/PNGs/Bullet.png");
-	Image ExplosionEffect = LoadImage("Assets/spritesheet/spritesheet.png");
+	Thruster = LoadTexture("../Assets/Foozle/Main/Engine/PNGs/MainShipEngineMod3.png");
+	Gun = LoadTexture("../Assets/Foozle/Main/Weapons/PNGs/AutoCannon02.png");
+	Image EngineEffect = LoadImage("../Assets/Foozle/Main/EngineEffects/PNGs/EngineEffect2.png");
+	Image GunEffect = LoadImage("../Assets/Foozle/Main/Weapons/PNGs/AutoCannon2.png");
+	Image ProjectileEffect = LoadImage("../Assets/Foozle/Main ship weapons/PNGs/Bullet.png");
+	Image ExplosionEffect = LoadImage("../Assets/spritesheet/spritesheet.png");
 
 
 	ShipExplosionAnim = util::PNGArraytoAnim(ExplosionEffect, 8, 10);

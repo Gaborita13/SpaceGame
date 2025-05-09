@@ -1,4 +1,4 @@
-#include "include/Anim.hpp"
+#include "Anim.hpp"
 
 Anim::Anim(){
 

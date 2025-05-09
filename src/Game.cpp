@@ -1,10 +1,10 @@
-#include "include/Game.hpp"
+#include "Game.hpp"
 
 
 Game::Game(){
 	Distance = 0;
 	Background background;
-	BackGroundMusic = LoadMusicStream("Assets/Music/MergeOST.wav");
+	BackGroundMusic = LoadMusicStream("../Assets/Music/MergeOST.wav");
 	PlayMusicStream(BackGroundMusic);
 	for(int i = 1; i < 10; i++){
 		planets.push_back(Planet(i));

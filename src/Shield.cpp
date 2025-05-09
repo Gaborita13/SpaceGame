@@ -1,4 +1,4 @@
-#include "include/Shield.hpp"
+#include "Shield.hpp"
 
 
 Shield::Shield( Vector2 Position){
@@ -7,7 +7,7 @@ Shield::Shield( Vector2 Position){
 	ShieldFrameCounter = 0;
 	ShieldFrameNumber = 12;
 	ShieldFrame = 0;
-	Image ShieldEffect = LoadImage("Assets/Foozle/Main/Shields/PNGs/MainShieldRS.png");
+	Image ShieldEffect = LoadImage("../Assets/Foozle/Main/Shields/PNGs/MainShieldRS.png");
 	ShieldAnimVector = util::PNGtoAnim(ShieldEffect, ShieldFrameNumber);
 	UnloadImage(ShieldEffect);
 	ShieldAnim = Anim(ShieldFrameDelay, ShieldFrameCounter, ShieldFrameNumber, ShieldFrame, ShieldAnimVector);

@@ -1,6 +1,6 @@
-#include "include/raylib.h"
-#include "include/util.hpp"
-#include "include/Game.hpp"
+#include "raylib.h"
+#include "util.hpp"
+#include "Game.hpp"
 #include <iostream>
 #include <vector>
 #include <numeric>

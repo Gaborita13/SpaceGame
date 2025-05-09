@@ -1,4 +1,4 @@
-#include "include/GUI.hpp"	
+#include "GUI.hpp"	
 
 
 
@@ -6,7 +6,7 @@ GUI::GUI(int ShieldTime){
 	this->ShieldTime = ShieldTime;
 	ShieldPercent = 100;
 	MaxShield = 240;
-	GUIFont = LoadFontEx("Assets/Font/monogram.ttf", 64 , 0, 0);
+	GUIFont = LoadFontEx("../Assets/Font/monogram.ttf", 64 , 0, 0);
 }
 
 GUI::GUI(){

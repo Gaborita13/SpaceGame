@@ -1,9 +1,9 @@
-#include "include/Background.hpp"
+#include "Background.hpp"
 
 
 Background::Background(){
 	ScrollingBackground = 0;
-	BackgroundTexture = LoadTexture("Assets/Pixel_Art_Space/Pixel_Art_Space/Back.png");
+	BackgroundTexture = LoadTexture("../Assets/Pixel_Art_Space/Pixel_Art_Space/Back.png");
 }
 
 Background::~Background(){

@@ -9,6 +9,7 @@
 
 class Asteroid : public Entity{
 public:
+
 	Asteroid();
 	Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, int ratio, std::vector<Texture2D> ExplosionAnim);
 	Asteroid(Vector2 Position, float orientation, int hp, float speed, float rotspeed, float ratio);
